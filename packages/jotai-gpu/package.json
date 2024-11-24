@@ -1,0 +1,50 @@
+{
+	"name": "jotai-gpu",
+	"version": "0.0.0",
+	"type": "module",
+	"private": true,
+	"description": "Declarative Jōtai-based API for TypeGPU",
+	"packageManager": "pnpm@8.15.0",
+	"author": "Iwo Plaza",
+	"license": "MIT",
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"exports": {
+		"./package.json": "./package.json",
+		".": {
+			"types": "./dist/index.d.ts",
+			"module": "./dist/index.js",
+			"import": "./dist/index.js",
+			"default": "./dist/index.cjs"
+		}
+	},
+	"sideEffects": false,
+	"files": ["src", "dist"],
+	"scripts": {
+		"dev:watch": "DEV=true tsup --watch",
+		"dev:build": "DEV=true tsup",
+		"build": "tsup",
+		"test:types": "pnpm tsc --p ./tsconfig.json --noEmit && pnpm tsc --p ./tsconfig.test.json --noEmit",
+		"publish": "echo \"Use pnpm prepare-package instead!\" && exit 1",
+		"prepare-package": "node ./tools/prepack.mjs"
+	},
+	"keywords": [
+		"jotai",
+		"react",
+		"typegpu",
+		"webgpu",
+		"graphics",
+		"declarative"
+	],
+	"peerDependencies": {
+		"jotai": ">=2.0.0",
+		"typegpu": ">=0.2.0"
+	},
+	"devDependencies": {
+		"@types/node": "^22.9.3",
+		"jotai": "^2.10.0",
+		"remeda": "^2.17.3",
+		"tsup": "^8.3.5",
+		"vitest": "^2.1.5"
+	}
+}
