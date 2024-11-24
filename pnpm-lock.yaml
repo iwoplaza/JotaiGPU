@@ -19,6 +19,10 @@ importers:
         version: 2.1.5(@types/node@22.9.3)
 
   packages/jotai-gpu:
+    dependencies:
+      typegpu:
+        specifier: '>=0.2.0'
+        version: 0.2.0
     devDependencies:
       '@types/node':
         specifier: ^22.9.3
@@ -1644,6 +1648,17 @@ packages:
     resolution: {integrity: sha512-jXMwges/FVbFRe5lTMJZVEZCrO9kI9c8k0PA/z7nF3bo0JSCCLysvokFjNPIUK/itEMas10MQM+AiHoHt/T/XA==}
     engines: {node: '>=16'}
     dev: true
+
+  /typed-binary@4.2.0:
+    resolution: {integrity: sha512-K8lXyQUAk095YkIkFqV929+epoQqxB0lsx9TBd1mb79565eVWXIRa7emCArRajH+g5nYa3t/ZoaSQIl0RDQMsQ==}
+    dev: false
+
+  /typegpu@0.2.0:
+    resolution: {integrity: sha512-MU/Vk9w3vhAz4Cg2I1/pTzCbLyTzhwszNnAFOPdJFW+YNcifgOT0WTvS4usnfsDDMUA4d8UbkX1UFjWsjBKu8A==}
+    engines: {node: '>=12.20.0'}
+    dependencies:
+      typed-binary: 4.2.0
+    dev: false
 
   /typescript@5.5.3:
     resolution: {integrity: sha512-/hreyEujaB0w76zKo6717l3L0o/qEUtRgdvUBvlkhoWeOVMjMuHNHk0BRBzikzuGDqNmPQbg5ifMEqsHLiIUcQ==}
