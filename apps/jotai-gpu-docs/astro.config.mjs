@@ -1,13 +1,26 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import tailwindcss from '@tailwindcss/vite';
+import typegpu from 'unplugin-typegpu/vite';
+
+import react from '@astrojs/react';
 
 // https://astro.build/config
 export default defineConfig({
+	vite: {
+		plugins: [typegpu({}), tailwindcss()],
+	},
 	integrations: [
 		starlight({
 			title: 'My Docs',
-			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/withastro/starlight' }],
+			social: [
+				{
+					icon: 'github',
+					label: 'GitHub',
+					href: 'https://github.com/withastro/starlight',
+				},
+			],
 			sidebar: [
 				{
 					label: 'Guides',
@@ -22,5 +35,6 @@ export default defineConfig({
 				},
 			],
 		}),
+		react(),
 	],
 });
