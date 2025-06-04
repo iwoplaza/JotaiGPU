@@ -10,7 +10,8 @@
 		"verbatimModuleSyntax": true,
 		"noUncheckedIndexedAccess": true,
 		"exactOptionalPropertyTypes": true,
-		"baseUrl": "."
+		"baseUrl": ".",
+		"allowImportingTsExtensions": true
 	},
 	"include": ["./src/**/*.ts"]
 }

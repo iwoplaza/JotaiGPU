@@ -2,14 +2,14 @@
 	"name": "jotai-gpu-monorepo",
 	"version": "0.0.0",
 	"private": true,
-	"packageManager": "pnpm@8.15.0",
+	"packageManager": "pnpm@10.11.1+sha512.e519b9f7639869dc8d5c3c5dfef73b3f091094b0a006d7317353c72b124e80e1afd429732e28705ad6bfa1ee879c1fce46c128ccebd3192101f43dd67c667912",
 	"author": "Iwo Plaza",
 	"license": "MIT",
 	"scripts": {
-		"dev": "DEV=true EXPERIMENTAL=true pnpm -r dev:build && DEV=true EXPERIMENTAL=true pnpm --parallel -r dev:watch",
+		"dev": "pnpm --parallel -r dev",
 		"dev:test": "vitest",
 		"check": "biome check --write .",
-		"test": "DEV=true EXPERIMENTAL=true pnpm -r dev:build && pnpm run '/^test:.*/'",
+		"test": "pnpm run '/^test:.*/'",
 		"test:types": "pnpm run -r test:types",
 		"test:spec": "vitest run"
 	},
