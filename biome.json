@@ -4,7 +4,7 @@
 		"enabled": true
 	},
 	"files": {
-		"ignore": ["dist/**"]
+		"ignore": ["dist/**", ".astro"]
 	},
 	"javascript": {
 		"formatter": {

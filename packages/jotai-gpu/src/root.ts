@@ -1,5 +1,5 @@
-import type { Getter } from 'jotai/vanilla';
 import { atomWithLazy } from 'jotai/utils';
+import type { Getter } from 'jotai/vanilla';
 import tgpu, { type TgpuRoot } from 'typegpu';
 
 const rootAtom = atomWithLazy(async () => {

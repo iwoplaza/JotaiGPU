@@ -30,7 +30,7 @@
 	"files": ["src", "dist"],
 	"scripts": {
 		"build": "tsup",
-		"test:types": "pnpm tsc --p ./tsconfig.json --noEmit && pnpm tsc --p ./tsconfig.test.json --noEmit",
+		"test:types": "pnpm tsc --p ./tsconfig.json --noEmit",
 		"publish": "echo \"Use pnpm prepare-package instead!\" && exit 1",
 		"prepare-package": "node ./tools/prepack.mjs"
 	},

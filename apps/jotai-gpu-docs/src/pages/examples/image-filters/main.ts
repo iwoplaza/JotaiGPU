@@ -1,7 +1,7 @@
+import { gpuAtom, withUpload } from 'jotai-gpu';
+import { atom, createStore } from 'jotai/vanilla';
 import tgpu from 'typegpu';
 import * as d from 'typegpu/data';
-import { atom, createStore } from 'jotai/vanilla';
-import { gpuAtom, withUpload } from 'jotai-gpu';
 tgpu;
 
 const counterAtom = withUpload(d.f32, atom(1));

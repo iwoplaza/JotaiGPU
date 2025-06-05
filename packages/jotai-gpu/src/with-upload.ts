@@ -1,9 +1,9 @@
 import { atom } from 'jotai/vanilla';
-import type { SetStateAction, WritableAtom, Atom } from 'jotai/vanilla';
+import type { Atom, SetStateAction, WritableAtom } from 'jotai/vanilla';
 import type { AnyWgslData, Infer, InferGPU } from 'typegpu/data';
+import { isPromiseLike } from './gpu-atom.ts';
 import { getGpuContext } from './gpu-context.ts';
 import { getRoot, getRootSync } from './root.ts';
-import { isPromiseLike } from './gpu-atom.ts';
 
 export interface WithUpload<TSchema extends AnyWgslData> {
 	usage: ['uniform'];

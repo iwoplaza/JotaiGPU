@@ -2,8 +2,8 @@ import { atom } from 'jotai/vanilla';
 import type { Atom } from 'jotai/vanilla';
 import tgpu from 'typegpu';
 import type { AnyData, Infer, InferGPU } from 'typegpu/data';
-import { getRoot, getRootSync } from './root.ts';
 import { setGpuContext } from './gpu-context.ts';
+import { getRoot, getRootSync } from './root.ts';
 
 export function isPromiseLike<T>(
 	value: PromiseLike<T> | unknown,
