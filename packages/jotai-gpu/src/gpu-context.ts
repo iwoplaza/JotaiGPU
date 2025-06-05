@@ -2,9 +2,6 @@ import type { Atom, Getter, Setter } from 'jotai/vanilla';
 
 interface GpuContext {
 	get: Getter;
-	peek: Getter;
-	set: Setter;
-	valueUpdates: Array<() => void>;
 	valueDeps: Array<Atom<unknown>>;
 }
 

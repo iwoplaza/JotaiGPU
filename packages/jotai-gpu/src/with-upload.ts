@@ -1,6 +1,5 @@
-import type { SetStateAction } from 'jotai';
-import type { WritableAtom } from 'jotai';
-import { atom, type Atom } from 'jotai';
+import { atom } from 'jotai/vanilla';
+import type { SetStateAction, WritableAtom, Atom } from 'jotai/vanilla';
 import type { AnyWgslData, Infer, InferGPU } from 'typegpu/data';
 import { getGpuContext } from './gpu-context.ts';
 import { getRoot, getRootSync } from './root.ts';
@@ -83,13 +82,8 @@ export function withUpload<
 			// We want to subscribe to the buffer, not the buffer's value.
 			// Otherwise, we will recompile the shader on every value change.
 			const ctx = getGpuContext();
-			const buffer = ctx.get(bufferAtom);
-			const uniform = buffer.as('uniform');
+			const uniform = ctx.get(bufferAtom).as('uniform');
 			ctx.valueDeps.push(wrapperAtom);
-			ctx.valueUpdates.push(() => {
-				// This will be called each time before dispatching the shader
-				buffer.write(ctx.peek(anAtom));
-			});
 			return uniform.value;
 		},
 	};
