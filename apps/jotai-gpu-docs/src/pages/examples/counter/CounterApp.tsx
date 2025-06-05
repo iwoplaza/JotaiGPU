@@ -19,11 +19,11 @@ const quadAtom = atom(async (get) => {
 export function CountDisplay(props: { countAtom: Atom<number> | Atom<Promise<number>> }) {
 	const counter = useAtomValue(props.countAtom);
 
-	return <p className='flex justify-center items-center w-8 h-8 bg-slate-200'>{counter}</p>;
+	return <span className='flex justify-center items-center w-8 h-8 bg-slate-200'>{counter}</span>;
 }
 
 export function Fallback() {
-	return <p className='flex justify-center items-center w-8 h-8 bg-slate-200'>🌀</p>;
+	return <span className='flex justify-center items-center w-8 h-8 bg-slate-200'>🌀</span>;
 }
 
 export default function CounterApp() {
@@ -35,22 +35,32 @@ export default function CounterApp() {
 
 	return <div>
 		<h1 className='text-center text-xl'>Jotai GPU - Compute Graph Example</h1>
-		<button type="button" onClick={increment} className='px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-md'>Increment</button>
+		<button type="button" onClick={increment} className='px-4 py-2 block mx-auto my-4 bg-slate-100 hover:bg-slate-200 rounded-md'>Increment</button>
 		<div className='flex'>
 			<section className='min-w-3xs flex flex-col items-center'>
-				<h2>CPU</h2>
+				<h2 className='text-slate-600 mb-4'>CPU</h2>
 				<Suspense fallback={<Fallback />}>
-					<CountDisplay countAtom={counterAtom} />
+					<p className='flex items-center gap-1'>
+						counter: <CountDisplay countAtom={counterAtom} />
+					</p>
 				</Suspense>
-				<Suspense fallback={<Fallback />}>
-					<CountDisplay countAtom={quadAtom} />
-				</Suspense>
+				<div className='h-20' />
+        <p className='flex items-center gap-1'>
+          quad:
+				  <Suspense fallback={<Fallback />}>
+						<CountDisplay countAtom={quadAtom} />
+				  </Suspense>
+        </p>
 			</section>
 			<section className='min-w-3xs flex flex-col items-center'>
-				<h2>GPU</h2>
-				<Suspense fallback={<Fallback />}>
-					<CountDisplay countAtom={doubleAtom} />
-				</Suspense>
+				<h2 className='text-slate-600 mb-4'>GPU</h2>
+				<div className='h-14' />
+				<p className='flex items-center gap-1'>
+				  double:
+				  <Suspense fallback={<Fallback />}>
+				    <CountDisplay countAtom={doubleAtom} />
+          </Suspense>
+				</p>
 			</section>
 		</div>
 	</div>

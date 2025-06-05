@@ -21,3 +21,13 @@ export function getRoot(get: Getter): Promise<TgpuRoot> | TgpuRoot {
 		return root;
 	});
 }
+
+export function getRootSync(get: Getter): TgpuRoot {
+	const rootPromise = get(rootAtom);
+	const cached = promiseCache.get(rootPromise);
+	if (cached) {
+		return cached;
+	}
+
+	throw new Error('Invariant: Root is not available yet.');
+}
