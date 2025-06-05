@@ -1,10 +1,12 @@
 import type { SetStateAction } from 'jotai';
 import type { WritableAtom } from 'jotai';
 import { atom, type Atom } from 'jotai';
-import type { AnyData, Infer, InferGPU } from 'typegpu/data';
+import type { AnyWgslData, Infer, InferGPU } from 'typegpu/data';
 import { getGpuGetter } from './gpu-getter.ts';
+import { getRoot } from './root.ts';
+import { isPromiseLike } from './gpu-atom.ts';
 
-export interface WithUpload<TSchema extends AnyData> {
+export interface WithUpload<TSchema extends AnyWgslData> {
 	usage: ['uniform'];
 	schema: TSchema;
 	value: InferGPU<TSchema>;
@@ -18,7 +20,7 @@ function isWritable(
 }
 
 export function withUpload<
-	TSchema extends AnyData,
+	TSchema extends AnyWgslData,
 	TValue extends Infer<TSchema>,
 >(
 	schema: TSchema,
@@ -26,7 +28,7 @@ export function withUpload<
 ): WritableAtom<TValue, [SetStateAction<TValue>], void> & WithUpload<TSchema>;
 
 export function withUpload<
-	TSchema extends AnyData,
+	TSchema extends AnyWgslData,
 	TValue extends Infer<TSchema>,
 >(
 	schema: TSchema,
@@ -34,32 +36,43 @@ export function withUpload<
 ): Atom<TValue> & WithUpload<TSchema>;
 
 export function withUpload<
-	TSchema extends AnyData,
+	TSchema extends AnyWgslData,
 	TValue extends Infer<TSchema>,
->(
-	schema: TSchema,
-	wrappedAtom: Atom<TValue>,
-): Atom<TValue> & WithUpload<TSchema> {
+>(schema: TSchema, anAtom: Atom<TValue>): Atom<TValue> & WithUpload<TSchema> {
 	let wrapperAtom: Atom<TValue> & WithUpload<TSchema>;
 
-	if (isWritable(wrappedAtom)) {
+	if (isWritable(anAtom)) {
 		wrapperAtom = atom(
-			(get) => get(wrappedAtom),
+			(get) => get(anAtom),
 			(_get, set, value: TValue) => {
-				if ('write' in wrappedAtom) {
-					set(wrappedAtom, value);
+				if ('write' in anAtom) {
+					set(anAtom, value);
 				}
 			},
 		) as unknown as Atom<TValue> & WithUpload<TSchema>;
 	} else {
-		wrapperAtom = atom((get) => get(wrappedAtom)) as unknown as Atom<TValue> &
+		wrapperAtom = atom((get) => get(anAtom)) as unknown as Atom<TValue> &
 			WithUpload<TSchema>;
 	}
+
+	const bufferAtom = atom((get) => {
+		const root = getRoot(get);
+		if (isPromiseLike(root)) {
+			throw new Error(
+				'Invariant: The root should already be defined at this point.',
+			);
+		}
+		return root.createBuffer(schema as AnyWgslData).$usage('uniform');
+	});
 
 	const valueAttribs = {
 		get() {
 			const get = getGpuGetter();
-			return get(wrapperAtom);
+			const value = get(wrapperAtom);
+			const buffer = get(bufferAtom);
+			buffer.write(value);
+			const uniform = buffer.as('uniform');
+			return uniform.value;
 		},
 	};
 
