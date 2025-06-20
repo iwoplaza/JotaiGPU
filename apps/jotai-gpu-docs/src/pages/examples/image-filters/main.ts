@@ -7,12 +7,12 @@ tgpu;
 const counterAtom = withUpload(d.f32, atom(1));
 
 const doubleAtom = gpuAtom(d.f32)(() => {
-	'kernel';
-	return counterAtom.$ * 2;
+  'kernel';
+  return counterAtom.$ * 2;
 });
 
 const quadAtom = atom(async (get) => {
-	return (await get(doubleAtom)) * 2;
+  return (await get(doubleAtom)) * 2;
 });
 
 const store = createStore();

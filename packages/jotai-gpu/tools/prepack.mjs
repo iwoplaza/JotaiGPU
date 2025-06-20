@@ -16,19 +16,19 @@ const cwd = new URL(`file:${process.cwd()}/`);
  * @returns {Promise<string>} The standard out of the process
  */
 function promiseExec(command) {
-	return new Promise((resolve, reject) => {
-		const childProcess = exec(command, {}, (error, stdout) => {
-			if (error) {
-				reject(error);
-				return;
-			}
+  return new Promise((resolve, reject) => {
+    const childProcess = exec(command, {}, (error, stdout) => {
+      if (error) {
+        reject(error);
+        return;
+      }
 
-			resolve(stdout);
-		});
+      resolve(stdout);
+    });
 
-		childProcess.stdout?.pipe(process.stdout);
-		childProcess.stderr?.pipe(process.stderr);
-	});
+    childProcess.stdout?.pipe(process.stdout);
+    childProcess.stderr?.pipe(process.stderr);
+  });
 }
 
 /**
@@ -39,93 +39,93 @@ function promiseExec(command) {
  * @returns {*}
  */
 function deepMapStrings(value, transform, path = '') {
-	if (value === undefined || value === null) {
-		return value;
-	}
+  if (value === undefined || value === null) {
+    return value;
+  }
 
-	if (Array.isArray(value)) {
-		return value;
-	}
+  if (Array.isArray(value)) {
+    return value;
+  }
 
-	if (typeof value === 'object') {
-		return Object.fromEntries(
-			Object.entries(value).map(([key, val]) => [
-				key,
-				deepMapStrings(val, transform, `${path}.${key}`),
-			]),
-		);
-	}
+  if (typeof value === 'object') {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, val]) => [
+        key,
+        deepMapStrings(val, transform, `${path}.${key}`),
+      ]),
+    );
+  }
 
-	if (typeof value === 'string') {
-		return transform(path, value);
-	}
+  if (typeof value === 'string') {
+    return transform(path, value);
+  }
 
-	return value;
+  return value;
 }
 
 async function transformPackageJSON() {
-	const packageJsonUrl = new URL('./package.json', cwd);
-	const distPackageJsonUrl = new URL('./dist/package.json', cwd);
+  const packageJsonUrl = new URL('./package.json', cwd);
+  const distPackageJsonUrl = new URL('./dist/package.json', cwd);
 
-	const packageJson = JSON.parse(await fs.readFile(packageJsonUrl, 'utf-8'));
+  const packageJson = JSON.parse(await fs.readFile(packageJsonUrl, 'utf-8'));
 
-	// Altering paths in the package.json
-	const distPackageJson = deepMapStrings(packageJson, (_path, value) => {
-		if (value.startsWith('./dist/')) {
-			return value.replace(/^\.\/dist/, '.');
-		}
-		return value;
-	});
+  // Altering paths in the package.json
+  const distPackageJson = deepMapStrings(packageJson, (_path, value) => {
+    if (value.startsWith('./dist/')) {
+      return value.replace(/^\.\/dist/, '.');
+    }
+    return value;
+  });
 
-	// Erroring out on any wildcard dependencies
-	for (const [moduleKey, versionSpec] of [
-		...entries(distPackageJson.dependencies ?? {}),
-	]) {
-		if (versionSpec === '*' || versionSpec === 'workspace:*') {
-			throw new Error(
-				`Cannot depend on a module with a wildcard version. (${moduleKey}: ${versionSpec})`,
-			);
-		}
-	}
+  // Erroring out on any wildcard dependencies
+  for (const [moduleKey, versionSpec] of [
+    ...entries(distPackageJson.dependencies ?? {}),
+  ]) {
+    if (versionSpec === '*' || versionSpec === 'workspace:*') {
+      throw new Error(
+        `Cannot depend on a module with a wildcard version. (${moduleKey}: ${versionSpec})`,
+      );
+    }
+  }
 
-	distPackageJson.private = false;
-	distPackageJson.scripts = {};
-	// Removing dev dependencies.
-	distPackageJson.devDependencies = undefined;
-	// Removing workspace specifiers in dependencies.
-	distPackageJson.dependencies = mapValues(
-		distPackageJson.dependencies ?? {},
-		(/** @type {string} */ value) => value.replace(/^workspace:/, ''),
-	);
+  distPackageJson.private = false;
+  distPackageJson.scripts = {};
+  // Removing dev dependencies.
+  distPackageJson.devDependencies = undefined;
+  // Removing workspace specifiers in dependencies.
+  distPackageJson.dependencies = mapValues(
+    distPackageJson.dependencies ?? {},
+    (/** @type {string} */ value) => value.replace(/^workspace:/, ''),
+  );
 
-	await fs.writeFile(
-		distPackageJsonUrl,
-		JSON.stringify(distPackageJson, undefined, 2),
-		'utf-8',
-	);
+  await fs.writeFile(
+    distPackageJsonUrl,
+    JSON.stringify(distPackageJson, undefined, 2),
+    'utf-8',
+  );
 }
 
 async function transformReadme() {
-	const readmeUrl = new URL('./README.md', cwd);
-	const distReadmeUrl = new URL('./dist/README.md', cwd);
+  const readmeUrl = new URL('./README.md', cwd);
+  const distReadmeUrl = new URL('./dist/README.md', cwd);
 
-	let readme = await fs.readFile(readmeUrl, 'utf-8');
+  let readme = await fs.readFile(readmeUrl, 'utf-8');
 
-	// npmjs.com does not handle multiple logos well, remove the dark mode only one.
-	readme = readme.replace(/!.*#gh-dark-mode-only\)/, '');
+  // npmjs.com does not handle multiple logos well, remove the dark mode only one.
+  readme = readme.replace(/!.*#gh-dark-mode-only\)/, '');
 
-	await fs.writeFile(distReadmeUrl, readme, 'utf-8');
+  await fs.writeFile(distReadmeUrl, readme, 'utf-8');
 }
 
 async function main() {
-	await promiseExec(
-		'pnpm build && pnpm -w test:spec && pnpm -w test:types && biome check .',
-	);
+  await promiseExec(
+    'pnpm build && pnpm -w test:spec && pnpm -w test:types && biome check .',
+  );
 
-	await Promise.all([transformPackageJSON(), transformReadme()]);
+  await Promise.all([transformPackageJSON(), transformReadme()]);
 
-	console.log(
-		`
+  console.log(
+    `
 
 -------------------------------------------------------------------------
 
@@ -133,7 +133,7 @@ ${Frog} Package prepared! Now run the following to publish the package:
 
 cd dist && pnpm publish
 `,
-	);
+  );
 }
 
 await main();

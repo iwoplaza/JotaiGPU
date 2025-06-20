@@ -44,7 +44,7 @@ export function AtomBox(props: AtomBoxProps) {
       className={`w-min ${current === undefined ? 'opacity-50' : 'opacity-100 transition-all'}`}
     >
       <div className="bg-[#1e1e2e] rounded-md shadow-2xl">
-        <div className="p-4 text-xs">
+        <div className="px-4 py-1 text-xs">
           <div
             // biome-ignore lint/security/noDangerouslySetInnerHtml: shiki
             dangerouslySetInnerHTML={{ __html: codeHtml }}

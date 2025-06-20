@@ -1,7 +1,7 @@
 export function pixel() {
-	return {
-		does() {
-			// TODO: Create implementation
-		},
-	};
+  return {
+    does() {
+      // TODO: Create implementation
+    },
+  };
 }
