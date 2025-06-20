@@ -1,7 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import '../styles/global.css';
 import CounterGraph from '../components/CounterGraph.tsx';
 import { Content } from '../content/homepage.mdx';
+import SwmLogomarkSvg from '../assets/swm-logomark-dark.svg';
 ---
 
 <html data-theme="dark">
@@ -30,5 +32,11 @@ import { Content } from '../content/homepage.mdx';
       </div>
       <CounterGraph client:only="react" />
     </main>
+    <footer class="flex justify-center items-center py-4">
+      <div class="flex items-center self-start gap-4 opacity-70">
+        <Image src={SwmLogomarkSvg} alt="Software Mansion Logomark" />
+        &copy; {new Date().getFullYear()} Software Mansion S.A.
+      </div>
+    </footer>
   </body>
 </html>

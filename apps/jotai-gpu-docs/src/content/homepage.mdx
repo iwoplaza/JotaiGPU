@@ -4,9 +4,11 @@ your entire data pipeline to be written in TypeScript, both the CPU and GPU port
 
 Let's look at an interactive example.
 
-```ts
+```ts twoslash
+import { atom } from 'jotai';
+import * as d from 'typegpu/data';
 import { withUpload, gpuAtom } from 'jotai-gpu';
-
+// ---cut---
 // Vanilla atoms can be decorated with a WGSL schema, allowing
 // their value to be uploaded to the GPU
 const counterAtom = withUpload(d.f32, atom(1));
