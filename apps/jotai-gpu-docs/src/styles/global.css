@@ -1,1 +1,34 @@
-@import "tailwindcss";
+@layer base, starlight, theme, components, utilities;
+
+@import '@astrojs/starlight-tailwind';
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/utilities.css' layer(utilities);
+@import "../fonts/font-face.css";
+
+@theme {
+  /* --- Colors --- */
+  /* Starlight colors */
+  --color-accent-200: #c3c4f1;
+  --color-accent-600: #6453d2;
+  --color-accent-900: #2e295f;
+  --color-accent-950: #211f41;
+
+  --color-gray-100: #f5f5fd;
+  --color-gray-200: #ececfb;
+  --color-gray-300: #bfc0d2;
+  --color-gray-400: #8788aa;
+  --color-gray-500: #545474;
+  --color-gray-700: #353452;
+  --color-gray-800: #24233f;
+  --color-gray-900: #171724;
+
+  /* --- There */
+  --font-afacad: "Afacad", "sans-serif";
+  --font-sans: "Aeonik", "sans-serif";
+}
+
+a:is([data-theme='dark'] *) {
+  color: var(--sl-badge-default-border);
+  text-decoration: none;
+  color: white;
+}

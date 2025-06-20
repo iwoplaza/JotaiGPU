@@ -1,0 +1,27 @@
+<span className="text-white">JōtaiGPU</span> — a toolkit for building declarative data graphs, spanning across your CPU and GPU, with automatic
+dependency tracking. It's built on top of *[Jōtai](https://jotai.org)* and *[TypeGPU](https://typegpu.com)*, allowing
+your entire data pipeline to be written in TypeScript, both the CPU and GPU portions.
+
+Let's look at an interactive example.
+
+```ts
+import { withUpload, gpuAtom } from 'jotai-gpu';
+
+// Vanilla atoms can be decorated with a WGSL schema, allowing
+// their value to be uploaded to the GPU
+const counterAtom = withUpload(d.f32, atom(1));
+
+// GPU atoms compute their value on the GPU. They can derive
+// other GPU atoms, or `withUpload(...)` decorated atoms
+const doubleAtom = gpuAtom(d.f32)(() => {
+  'kernel'; // <- this function is executable on the GPU
+  return counterAtom.$ * 2;
+});
+
+// GPU atoms are just asynchronous atoms from the perspective
+// of vanilla atoms, so we can download the result and derive it
+const quadAtom = atom(async (get) => {
+  return (await get(doubleAtom)) * 2;
+});
+
+```
