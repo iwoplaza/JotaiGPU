@@ -1,6 +1,14 @@
-<span className="text-white">JōtaiGPU</span> — a toolkit for building declarative data graphs, spanning across your CPU and GPU, with automatic
-dependency tracking. It's built on top of *[Jōtai](https://jotai.org)* and *[TypeGPU](https://typegpu.com)*, allowing
+import CautionIcon from '../components/CautionIcon.astro';
+
+<span className="text-white">JotaiGPU</span> — a toolkit for building declarative data graphs, spanning across your CPU and GPU, with automatic
+dependency tracking. It's built on top of *[Jotai](https://jotai.org)* and *[TypeGPU](https://typegpu.com)*, allowing
 your entire data pipeline to be written in TypeScript, both the CPU and GPU portions.
+
+<aside className='px-5 py-0.5 my-6 bg-accent-900'>
+<p className='flex items-center gap-2'><CautionIcon /><strong>Limited WebGPU Support</strong></p>
+The WebGPU API, which is the basis for technologies like *[TypeGPU](https://typegpu.com)*, is yet to be widely supported by browsers.
+Interactive examples might not work for you.
+</aside>
 
 Let's look at an interactive example.
 
@@ -11,13 +19,13 @@ import { withUpload, gpuAtom } from 'jotai-gpu';
 // ---cut---
 // Vanilla atoms can be decorated with a WGSL schema, allowing
 // their value to be uploaded to the GPU
-const counterAtom = withUpload(d.f32, atom(1));
+const countAtom = withUpload(d.f32, atom(1));
 
 // GPU atoms compute their value on the GPU. They can derive
 // other GPU atoms, or `withUpload(...)` decorated atoms
 const doubleAtom = gpuAtom(d.f32)(() => {
   'kernel'; // <- this function is executable on the GPU
-  return counterAtom.$ * 2;
+  return countAtom.$ * 2;
 });
 
 // GPU atoms are just asynchronous atoms from the perspective

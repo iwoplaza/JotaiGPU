@@ -29,10 +29,10 @@ export function Arrow(props: ArrowProps) {
 
   return (
     <span
-      className="inline-block relative w-0 h-0 drop-shadow-[0px_0px_2px_#ffffff66] text-[#8c91a8]"
+      className="inline-flex justify-start items-center relative w-0 h-0 drop-shadow-[0px_0px_2px_#ffffff66] text-[#8c91a8]"
       style={{ rotate: `${angle}rad` }}
     >
-      <span className="absolute left-0 top-0 flex justify-end items-center">
+      <span className="flex justify-end items-center">
         <div
           className="bg-current h-0.5 rounded-sm -mr-1"
           style={{ width: `${magnitude}${unit}` }}
