@@ -1,6 +1,7 @@
 import { atom, useSetAtom } from 'jotai';
 import { gpuAtom, withUpload } from 'jotai-gpu';
 import { useCallback } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import * as d from 'typegpu/data';
 import { Arrow } from './Arrow.tsx';
 import { AtomBox } from './AtomBox.tsx';
@@ -43,7 +44,7 @@ function EnvLabel({
   );
 }
 
-export default function CounterGraph() {
+function CounterGraph() {
   const setCounter = useSetAtom(countAtom);
 
   const increment = useCallback(() => {
@@ -88,5 +89,20 @@ export default function CounterGraph() {
         <AtomBox valueAtom={quadAtom} codeHtml={quadAtomCode} />
       </div>
     </div>
+  );
+}
+
+export default function CounterGraphWrapper() {
+  return (
+    <ErrorBoundary
+      fallback={
+        <p className="mx-auto max-w-2xl text-center py-16 bg-gray-600/50">
+          WebGPU is not supported in this browser{' '}
+          <span className="whitespace-nowrap">:(</span>
+        </p>
+      }
+    >
+      <CounterGraph />
+    </ErrorBoundary>
   );
 }
