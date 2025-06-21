@@ -4,11 +4,12 @@ import '../styles/global.css';
 import CounterGraph from '../components/CounterGraph.tsx';
 import { Content } from '../content/homepage.mdx';
 import SwmLogomarkSvg from '../assets/swm-logomark-dark.svg';
+import JotaiGpuLogo from '../assets/jotaigpu-logo-dark.svg';
 ---
 
 <html data-theme="dark">
   <head>
-    <title>Jotai GPU</title>
+    <title>JōtaiGPU</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" href="/jotai-gpu/favicon.svg" />
@@ -21,13 +22,11 @@ import SwmLogomarkSvg from '../assets/swm-logomark-dark.svg';
     />
   </head>
   <body class="bg-[#131419] text-white">
-    <header class="flex justify-center items-center">
-      <h1 class="my-10 text-4xl font-afacad font-normal">
-        Jōtai<span class="text-[#ab74f7]">GPU</span>
-      </h1>
+    <header class="flex justify-center items-center my-12">
+      <Image src={JotaiGpuLogo} alt="JotaiGPU Logo" height={64} />
     </header>
     <main class="mb-64">
-      <div class="mx-auto max-w-2xl text-white/80">
+      <div class="mx-auto max-w-2xl text-white/80 leading-6">
         <Content />
       </div>
       <CounterGraph client:only="react" />
