@@ -13,9 +13,12 @@ Interactive examples might not work for you.
 Let's look at an interactive example.
 
 ```ts twoslash
-import { atom } from 'jotai';
+import { atom, createStore } from 'jotai';
 import * as d from 'typegpu/data';
 import { withUpload, gpuAtom } from 'jotai-gpu';
+
+const store = createStore();
+
 // ---cut---
 // Vanilla atoms can be decorated with a WGSL schema, allowing
 // their value to be uploaded to the GPU
@@ -34,4 +37,9 @@ const quadAtom = atom(async (get) => {
   return (await get(doubleAtom)) * 2;
 });
 
+// Listening to changes of `quadAtom`. There are also
+// easy bindings for frameworks like React
+store.sub(quadAtom, async () => {
+  console.log(await store.get(quadAtom));
+});
 ```
