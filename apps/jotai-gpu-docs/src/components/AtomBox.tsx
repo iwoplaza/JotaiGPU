@@ -1,3 +1,6 @@
+import catppucciMmocha from '@shikijs/themes/catppuccin-mocha';
+import { createHighlighterCore } from 'shiki/core';
+import { createOnigurumaEngine } from 'shiki/engine/oniguruma';
 import { type Atom, atom, useAtomValue } from 'jotai';
 import { atomFamily, unwrap } from 'jotai/utils';
 import { useMemo } from 'react';
@@ -7,16 +10,20 @@ interface AtomBoxProps {
   codeHtml: string;
 }
 
-const shikiAtom = atom(() => import('shiki'));
+const highlighter = await createHighlighterCore({
+  themes: [catppucciMmocha],
+  langs: [import('@shikijs/langs/typescript')],
+  // `shiki/wasm` contains the wasm binary inlined as base64 string.
+  engine: createOnigurumaEngine(import('shiki/wasm')),
+});
 
 const htmlAtoms = atomFamily((code: string) => {
-  return atom(async (get) => {
-    const { codeToHtml } = await get(shikiAtom);
-    return codeToHtml(code, {
+  return atom(() =>
+    highlighter.codeToHtml(code, {
       lang: 'typescript',
-      theme: 'catppuccin-mocha',
-    });
-  });
+      theme: catppucciMmocha,
+    }),
+  );
 });
 
 export function CountDisplay(props: {

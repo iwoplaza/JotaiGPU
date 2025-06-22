@@ -13,6 +13,8 @@
 		"@astrojs/react": "^4.3.0",
 		"@astrojs/starlight": "^0.34.3",
 		"@astrojs/starlight-tailwind": "^4.0.1",
+		"@shikijs/langs": "^3.7.0",
+		"@shikijs/themes": "^3.7.0",
 		"@tailwindcss/vite": "^4.1.8",
 		"@types/node": "^22.15.29",
 		"@types/react-dom": "^19.1.6",
