@@ -8,7 +8,7 @@ import react from '@astrojs/react';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://software-mansion-labs.github.io',
+  site: 'https://iwoplaza.dev',
   base: 'JotaiGPU',
   vite: {
     plugins: [typegpu({}), tailwindcss()],
