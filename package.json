@@ -19,5 +19,8 @@
 		"typescript": "^5.5.3",
 		"vite": "^6.3.5",
 		"vitest": "^2.1.5"
+	},
+	"pnpm": {
+		"onlyBuiltDependencies": ["@biomejs/biome", "esbuild", "sharp"]
 	}
 }
