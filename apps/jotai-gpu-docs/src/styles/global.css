@@ -3,7 +3,6 @@
 @import '@astrojs/starlight-tailwind';
 @import 'tailwindcss/theme.css' layer(theme);
 @import 'tailwindcss/utilities.css' layer(utilities);
-@import "../fonts/font-face.css";
 
 @theme {
   /* --- Colors --- */
@@ -24,7 +23,7 @@
 
   /* --- There */
   --font-afacad: "Afacad", "sans-serif";
-  --font-sans: "Aeonik", "sans-serif";
+  --font-sans: "Inter", "sans-serif";
 }
 
 a:is([data-theme='dark'] *) {
