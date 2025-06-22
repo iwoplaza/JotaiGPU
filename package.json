@@ -11,7 +11,8 @@
 		"check": "biome check --write .",
 		"test": "pnpm run '/^test:.*/'",
 		"test:types": "pnpm run -r test:types",
-		"test:spec": "vitest run"
+		"test:spec": "vitest run",
+		"automd": "npx automd@latest --input=\"**/*.md\""
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.8.3",
