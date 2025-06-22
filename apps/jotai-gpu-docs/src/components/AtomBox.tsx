@@ -1,7 +1,7 @@
 import { type Atom, atom, useAtomValue } from 'jotai';
 import { atomFamily, unwrap } from 'jotai/utils';
 import { useMemo } from 'react';
-import { codeToHtml } from 'shiki';
+import { codeToHtml } from 'shiki/bundle/web';
 
 interface AtomBoxProps {
   valueAtom: Atom<number | Promise<number>>;
