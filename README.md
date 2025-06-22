@@ -1,11 +1,14 @@
 <div align="center">
 
-# Jōtai GPU
+<img src="./media/jotai-gpu-header.png" alt="Jotai GPU Header" />
 
-🚧 Under Construction 🚧
+[Website](https://iwoplaza.dev/JotaiGPU) —
+[Documentation](https://iwoplaza.dev/JotaiGPU/docs)
 
 </div>
 
-## Idea
+> 🚧 Under Construction 🚧
 
-A toolkit for declarative GPU computation (and rendering) with automatic dependency tracking built on top of Jōtai and TypeGPU.
+**JotaiGPU** — a toolkit for building declarative data graphs, spanning across your CPU and GPU, with automatic
+dependency tracking. It's built on top of [Jotai](https://jotai.org) and [TypeGPU](https://typegpu.com), allowing
+your entire data pipeline to be written in TypeScript, both the CPU and GPU portions.
