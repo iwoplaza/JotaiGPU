@@ -1,20 +1,22 @@
 import { type Atom, atom, useAtomValue } from 'jotai';
 import { atomFamily, unwrap } from 'jotai/utils';
 import { useMemo } from 'react';
-import { codeToHtml } from 'shiki/bundle/web';
 
 interface AtomBoxProps {
   valueAtom: Atom<number | Promise<number>>;
   codeHtml: string;
 }
 
+const shikiAtom = atom(() => import('shiki'));
+
 const htmlAtoms = atomFamily((code: string) => {
-  return atom(() =>
-    codeToHtml(code, {
+  return atom(async (get) => {
+    const { codeToHtml } = await get(shikiAtom);
+    return codeToHtml(code, {
       lang: 'typescript',
       theme: 'catppuccin-mocha',
-    }),
-  );
+    });
+  });
 });
 
 export function CountDisplay(props: {
