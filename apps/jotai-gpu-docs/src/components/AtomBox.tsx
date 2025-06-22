@@ -1,9 +1,9 @@
 import catppucciMmocha from '@shikijs/themes/catppuccin-mocha';
-import { createHighlighterCore } from 'shiki/core';
-import { createOnigurumaEngine } from 'shiki/engine/oniguruma';
 import { type Atom, atom, useAtomValue } from 'jotai';
 import { atomFamily, unwrap } from 'jotai/utils';
 import { useMemo } from 'react';
+import { createHighlighterCore } from 'shiki/core';
+import { createOnigurumaEngine } from 'shiki/engine/oniguruma';
 
 interface AtomBoxProps {
   valueAtom: Atom<number | Promise<number>>;
