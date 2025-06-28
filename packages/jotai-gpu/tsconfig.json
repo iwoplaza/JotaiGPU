@@ -11,7 +11,8 @@
 		"noUncheckedIndexedAccess": true,
 		"exactOptionalPropertyTypes": true,
 		"baseUrl": ".",
-		"allowImportingTsExtensions": true
+		"allowImportingTsExtensions": true,
+		"types": ["@webgpu/types"]
 	},
 	"include": ["./src/**/*.ts"]
 }

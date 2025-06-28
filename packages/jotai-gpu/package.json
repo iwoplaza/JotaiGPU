@@ -9,7 +9,8 @@
 	"license": "MIT",
 	"exports": {
 		"./package.json": "./package.json",
-		".": "./src/index.ts"
+		".": "./src/index.ts",
+		"./react": "./src/react/index.ts"
 	},
 	"publishConfig": {
 		"directory": "dist",
@@ -23,6 +24,12 @@
 				"module": "./dist/index.js",
 				"import": "./dist/index.js",
 				"default": "./dist/index.cjs"
+			},
+			"./react": {
+				"types": "./dist/react/index.d.ts",
+				"module": "./dist/react/index.js",
+				"import": "./dist/react/index.js",
+				"default": "./dist/react/index.cjs"
 			}
 		}
 	},
@@ -44,10 +51,21 @@
 	],
 	"peerDependencies": {
 		"jotai": ">=2.0.0",
-		"typegpu": ">=0.5.8"
+		"typegpu": ">=0.5.8",
+		"@types/react": ">=17.0.0",
+		"react": ">=17.0.0"
+	},
+	"peerDependenciesMeta": {
+		"@types/react": {
+			"optional": true
+		},
+		"react": {
+			"optional": true
+		}
 	},
 	"devDependencies": {
 		"@types/node": "^22.9.3",
+		"@webgpu/types": "catalog:",
 		"jotai": "^2.10.0",
 		"remeda": "^2.17.3",
 		"tsup": "^8.3.5",
