@@ -1,7 +1,7 @@
 import { atom } from 'jotai/vanilla';
 import type { Atom, SetStateAction, WritableAtom } from 'jotai/vanilla';
 import type { AnyWgslData, Infer, InferGPU } from 'typegpu/data';
-import { isPromiseLike } from './gpu-atom.ts';
+import { isPromiseLike } from './utils.ts';
 import { getGpuContext } from './gpu-context.ts';
 import { getRoot, getRootSync } from './root.ts';
 
