@@ -1,18 +1,18 @@
 {
-  "compilerOptions": {
-    "strict": true,
-    "target": "es2018",
-    "esModuleInterop": true,
-    "module": "nodenext",
-    "skipLibCheck": true,
-    "allowJs": true,
-    "noEmit": true,
-    "verbatimModuleSyntax": true,
-    "noUncheckedIndexedAccess": true,
-    "exactOptionalPropertyTypes": true,
-    "baseUrl": ".",
-    "allowImportingTsExtensions": true,
-    "types": ["@webgpu/types"]
-  },
-  "include": ["./src/**/*.ts"]
+	"compilerOptions": {
+		"strict": true,
+		"target": "es2018",
+		"esModuleInterop": true,
+		"module": "nodenext",
+		"skipLibCheck": true,
+		"allowJs": true,
+		"noEmit": true,
+		"verbatimModuleSyntax": true,
+		"noUncheckedIndexedAccess": true,
+		"exactOptionalPropertyTypes": true,
+		"baseUrl": ".",
+		"allowImportingTsExtensions": true,
+		"types": ["@webgpu/types"]
+	},
+	"include": ["./src/**/*.ts"]
 }

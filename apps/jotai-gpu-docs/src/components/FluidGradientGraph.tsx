@@ -1,10 +1,10 @@
-import { pixel } from "jotai-gpu";
-import { useDraw } from "jotai-gpu/react";
-import * as d from "typegpu/data";
-import { ErrorBoundary } from "react-error-boundary";
+import { pixel } from 'jotai-gpu';
+import { useDraw } from 'jotai-gpu/react';
+import { ErrorBoundary } from 'react-error-boundary';
+import * as d from 'typegpu/data';
 
 const finalPixel = pixel(() => {
-  "kernel";
+  'kernel';
   return d.vec4f(1, 0, 0, 1);
 });
 
@@ -23,7 +23,7 @@ export default function CounterGraphWrapper() {
     <ErrorBoundary
       fallback={
         <p className="mx-auto max-w-2xl text-center py-16 bg-gray-600/50">
-          WebGPU is not supported in this browser{" "}
+          WebGPU is not supported in this browser{' '}
           <span className="whitespace-nowrap">:(</span>
         </p>
       }

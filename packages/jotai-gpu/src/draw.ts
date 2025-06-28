@@ -32,10 +32,9 @@ export async function draw(
       }
       canvasToContextMap.set(target, context);
 
-      context.configure({
-        device: root.device,
-        format: 
-      });
+      // context.configure({
+      //   device: root.device,
+      // });
     }
   }
 }
