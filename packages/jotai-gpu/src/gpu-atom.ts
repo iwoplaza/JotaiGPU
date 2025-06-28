@@ -1,9 +1,9 @@
-import { atom } from "jotai/vanilla";
-import type { Atom } from "jotai/vanilla";
-import tgpu from "typegpu";
-import type { AnyData, Infer, InferGPU } from "typegpu/data";
-import { setGpuContext } from "./gpu-context.ts";
-import { getRoot, getRootSync } from "./root.ts";
+import { atom } from 'jotai/vanilla';
+import type { Atom } from 'jotai/vanilla';
+import tgpu from 'typegpu';
+import type { AnyData, Infer, InferGPU } from 'typegpu/data';
+import { setGpuContext } from './gpu-context.ts';
+import { getRoot, getRootSync } from './root.ts';
 
 export interface GPUAtom<TSchema extends AnyData, TValue extends Infer<TSchema>>
   extends Atom<Promise<TValue>> {
@@ -14,28 +14,28 @@ export function gpuAtom<TSchema extends AnyData, TValue extends Infer<TSchema>>(
   schema: TSchema,
   read: () => TValue,
 ): GPUAtom<TSchema, TValue> {
-  const wrapped = tgpu["~unstable"].fn([], schema)(read);
+  const wrapped = tgpu['~unstable'].fn([], schema)(read);
 
   const resultBufferAtom = atom((get) => {
     const root = getRootSync(get);
     // TODO: Allow users to define how the result of this atom can be used.
     // biome-ignore lint/suspicious/noExplicitAny: it's fine, just use storage for now
-    return root.createBuffer(schema).$usage("storage" as any);
+    return root.createBuffer(schema).$usage('storage' as any);
   });
 
   const pipelineAtom = atom((get) => {
     const root = getRootSync(get);
     const resultBuffer = get(resultBufferAtom);
-    const resultStorage = resultBuffer.as("mutable");
+    const resultStorage = resultBuffer.as('mutable');
 
-    const mainCompute = tgpu["~unstable"].computeFn({
+    const mainCompute = tgpu['~unstable'].computeFn({
       workgroupSize: [1, 1, 1],
     })(() => {
       resultStorage.value = wrapped() as InferGPU<TSchema>;
     });
 
     const valueDeps: Array<Atom<unknown>> = [];
-    const pipeline = root["~unstable"]
+    const pipeline = root['~unstable']
       .withCompute(mainCompute)
       .createPipeline();
 
