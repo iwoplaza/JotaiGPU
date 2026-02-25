@@ -8,7 +8,7 @@ import { AtomBox } from './AtomBox.tsx';
 
 const countAtom = withUpload(d.f32, atom(1));
 
-const doubleAtom = gpuAtom(d.f32)(() => {
+const doubleAtom = gpuAtom(d.f32, () => {
   'kernel';
   return countAtom.$ * 2;
 });
@@ -21,7 +21,7 @@ const countAtomCode = `\
 const countAtom = withUpload(d.f32, atom(1));`;
 
 const doubleAtomCode = `\
-const doubleAtom = gpuAtom(d.f32)(() => {
+const doubleAtom = gpuAtom(d.f32, () => {
   'kernel';
   return countAtom.$ * 2;
 });`;
