@@ -12,32 +12,24 @@ export interface WithUpload<TSchema extends AnyWgslData> {
   $: InferGPU<TSchema>;
 }
 
-function isWritable(
-  atom: unknown,
-): atom is WritableAtom<unknown, unknown[], unknown> {
+function isWritable(atom: unknown): atom is WritableAtom<unknown, unknown[], unknown> {
   return !!(atom as WritableAtom<unknown, unknown[], unknown>)?.write;
 }
 
-export function withUpload<
-  TSchema extends AnyWgslData,
-  TValue extends Infer<TSchema>,
->(
+export function withUpload<TSchema extends AnyWgslData, TValue extends Infer<TSchema>>(
   schema: TSchema,
   wrappedAtom: WritableAtom<TValue, [SetStateAction<TValue>], void>,
 ): WritableAtom<TValue, [SetStateAction<TValue>], void> & WithUpload<TSchema>;
 
-export function withUpload<
-  TSchema extends AnyWgslData,
-  TValue extends Infer<TSchema>,
->(
+export function withUpload<TSchema extends AnyWgslData, TValue extends Infer<TSchema>>(
   schema: TSchema,
   wrappedAtom: Atom<TValue>,
 ): Atom<TValue> & WithUpload<TSchema>;
 
-export function withUpload<
-  TSchema extends AnyWgslData,
-  TValue extends Infer<TSchema>,
->(schema: TSchema, anAtom: Atom<TValue>): Atom<TValue> & WithUpload<TSchema> {
+export function withUpload<TSchema extends AnyWgslData, TValue extends Infer<TSchema>>(
+  schema: TSchema,
+  anAtom: Atom<TValue>,
+): Atom<TValue> & WithUpload<TSchema> {
   let wrapperAtom: Atom<TValue> & WithUpload<TSchema>;
 
   const bufferAtom = atom((get) => {
@@ -72,8 +64,7 @@ export function withUpload<
       },
     ) as unknown as Atom<TValue> & WithUpload<TSchema>;
   } else {
-    wrapperAtom = atom((get) => get(anAtom)) as unknown as Atom<TValue> &
-      WithUpload<TSchema>;
+    wrapperAtom = atom((get) => get(anAtom)) as unknown as Atom<TValue> & WithUpload<TSchema>;
   }
 
   const valueAttribs = {

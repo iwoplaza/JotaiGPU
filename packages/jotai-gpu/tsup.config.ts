@@ -11,8 +11,7 @@ import { defineConfig } from 'tsup';
  */
 export function initBuildScript() {
   const inDevMode = process.env.DEV === 'true';
-  const featureSet =
-    process.env.EXPERIMENTAL === 'true' ? 'experimental' : 'standard';
+  const featureSet = process.env.EXPERIMENTAL === 'true' ? 'experimental' : 'standard';
 
   console.log(`-= ${inDevMode ? 'DEVELOPMENT' : 'PRODUCTION'} MODE =-`);
   console.log(`feature-set: ${featureSet}\n\n`);
@@ -44,8 +43,6 @@ export default defineConfig({
   clean: !inDevMode,
   dts: true,
   define: {
-    'process.env.NODE_ENV': JSON.stringify(
-      inDevMode ? 'development' : 'production',
-    ),
+    'process.env.NODE_ENV': JSON.stringify(inDevMode ? 'development' : 'production'),
   },
 });

@@ -1,4 +1,4 @@
-import type { Atom, Getter, Setter } from 'jotai/vanilla';
+import type { Atom, Getter } from 'jotai/vanilla';
 
 interface GpuContext {
   get: Getter;
@@ -9,9 +9,7 @@ let gpuContext: GpuContext | undefined;
 
 export function getGpuContext(): GpuContext {
   if (!gpuContext) {
-    throw new Error(
-      'Cannot access atoms with .value or .$ outside of GPU atoms.',
-    );
+    throw new Error('Cannot access atoms with .value or .$ outside of GPU atoms.');
   }
   return gpuContext;
 }
