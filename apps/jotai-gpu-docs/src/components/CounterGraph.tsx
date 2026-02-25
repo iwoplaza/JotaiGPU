@@ -2,14 +2,14 @@ import { atom, useSetAtom } from 'jotai';
 import { gpuAtom, withUpload } from 'jotai-gpu';
 import { useCallback } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import * as d from 'typegpu/data';
+import { d } from 'typegpu';
 import { Arrow } from './Arrow.tsx';
 import { AtomBox } from './AtomBox.tsx';
 
 const countAtom = withUpload(d.f32, atom(1));
 
 const doubleAtom = gpuAtom(d.f32, () => {
-  'kernel';
+  'use gpu';
   return countAtom.$ * 2;
 });
 
@@ -22,7 +22,7 @@ const countAtom = withUpload(d.f32, atom(1));`;
 
 const doubleAtomCode = `\
 const doubleAtom = gpuAtom(d.f32, () => {
-  'kernel';
+  'use gpu';
   return countAtom.$ * 2;
 });`;
 

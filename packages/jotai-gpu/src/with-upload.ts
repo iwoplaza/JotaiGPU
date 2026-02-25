@@ -1,32 +1,31 @@
 import { atom } from 'jotai/vanilla';
-import type { Atom, SetStateAction, WritableAtom } from 'jotai/vanilla';
-import type { AnyWgslData, Infer, InferGPU } from 'typegpu/data';
+import type { Atom, WritableAtom, PrimitiveAtom } from 'jotai/vanilla';
+import type { d } from 'typegpu';
 import { isPromiseLike } from './utils.ts';
 import { getGpuContext } from './gpu-context.ts';
 import { getRoot, getRootSync } from './root.ts';
 
-export interface WithUpload<TSchema extends AnyWgslData> {
+export interface WithUpload<TSchema extends d.BaseData> {
   usage: ['uniform'];
   schema: TSchema;
-  readonly value: InferGPU<TSchema>;
-  readonly $: InferGPU<TSchema>;
+  readonly $: d.InferGPU<TSchema>;
 }
 
 function isWritable(atom: unknown): atom is WritableAtom<unknown, unknown[], unknown> {
   return !!(atom as WritableAtom<unknown, unknown[], unknown>)?.write;
 }
 
-export function withUpload<TSchema extends AnyWgslData, TValue extends Infer<TSchema>>(
+export function withUpload<TSchema extends d.AnyData, TValue extends d.Infer<TSchema>>(
   schema: TSchema,
-  wrappedAtom: WritableAtom<TValue, [SetStateAction<TValue>], void>,
-): WritableAtom<TValue, [SetStateAction<TValue>], void> & WithUpload<TSchema>;
+  wrappedAtom: PrimitiveAtom<TValue>,
+): PrimitiveAtom<TValue> & WithUpload<TSchema>;
 
-export function withUpload<TSchema extends AnyWgslData, TValue extends Infer<TSchema>>(
+export function withUpload<TSchema extends d.AnyData, TValue extends d.Infer<TSchema>>(
   schema: TSchema,
   wrappedAtom: Atom<TValue>,
 ): Atom<TValue> & WithUpload<TSchema>;
 
-export function withUpload<TSchema extends AnyWgslData, TValue extends Infer<TSchema>>(
+export function withUpload<TSchema extends d.AnyData, TValue extends d.Infer<TSchema>>(
   schema: TSchema,
   anAtom: Atom<TValue>,
 ): Atom<TValue> & WithUpload<TSchema> {
@@ -34,7 +33,7 @@ export function withUpload<TSchema extends AnyWgslData, TValue extends Infer<TSc
 
   const bufferAtom = atom((get) => {
     const root = getRootSync(get);
-    return root.createBuffer(schema as AnyWgslData).$usage('uniform');
+    return root.createBuffer(schema as d.AnyData).$usage('uniform');
   });
 
   if (isWritable(anAtom)) {
@@ -71,16 +70,15 @@ export function withUpload<TSchema extends AnyWgslData, TValue extends Infer<TSc
     get() {
       // This will get called while resolving the shader program.
       // We want to subscribe to the buffer, not the buffer's value.
-      // Otherwise, we will recompile the shader on every value change.
+      // Otherwise, we would recompile the shader on every value change.
       const ctx = getGpuContext();
       const uniform = ctx.get(bufferAtom).as('uniform');
       ctx.valueDeps.push(wrapperAtom);
-      return uniform.value;
+      return uniform.$;
     },
   };
 
   wrapperAtom.schema = schema;
-  Object.defineProperty(wrapperAtom, 'value', valueAttribs);
   Object.defineProperty(wrapperAtom, '$', valueAttribs);
 
   return wrapperAtom;
