@@ -47,7 +47,7 @@
   "devDependencies": {
     "@types/node": "^22.9.3",
     "@webgpu/types": "catalog:",
-    "jotai": "^2.10.0",
+    "jotai": "catalog:",
     "remeda": "^2.17.3",
     "tsup": "^8.3.5",
     "typegpu": "catalog:",
@@ -55,7 +55,7 @@
   },
   "peerDependencies": {
     "jotai": ">=2.0.0",
-    "typegpu": ">=0.5.8"
+    "typegpu": ">=0.10.1"
   },
   "packageManager": "pnpm@10.11.1+sha512.e519b9f7639869dc8d5c3c5dfef73b3f091094b0a006d7317353c72b124e80e1afd429732e28705ad6bfa1ee879c1fce46c128ccebd3192101f43dd67c667912"
 }

@@ -1,6 +1,7 @@
 import catppucciMmocha from '@shikijs/themes/catppuccin-mocha';
 import { type Atom, atom, useAtomValue } from 'jotai';
-import { atomFamily, unwrap } from 'jotai/utils';
+import { unwrap } from 'jotai/utils';
+import { atomFamily } from 'jotai-family';
 import { useMemo } from 'react';
 import { createHighlighterCore } from 'shiki/core';
 import { createOnigurumaEngine } from 'shiki/engine/oniguruma';

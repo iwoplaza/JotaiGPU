@@ -1,27 +1,26 @@
 import { atom } from 'jotai/vanilla';
 import type { Atom } from 'jotai/vanilla';
-import tgpu from 'typegpu';
-import type { AnyData, Infer, InferGPU } from 'typegpu/data';
+import tgpu, { d } from 'typegpu';
 import { setGpuContext } from './gpu-context.ts';
 import { getRoot, getRootSync } from './root.ts';
 
-export interface GPUAtom<TSchema extends AnyData, TValue extends Infer<TSchema>> extends Atom<
-  Promise<TValue>
-> {
-  schema: TSchema;
+export interface GPUAtom<
+  TSchema extends d.AnyData,
+  TValue extends d.InferGPU<TSchema>,
+> extends Atom<Promise<TValue>> {
+  readonly schema: TSchema;
 }
 
-export function gpuAtom<TSchema extends AnyData, TValue extends Infer<TSchema>>(
+export function gpuAtom<TSchema extends d.AnyData, TValue extends d.InferGPU<TSchema>>(
   schema: TSchema,
   read: () => TValue,
 ): GPUAtom<TSchema, TValue> {
-  const wrapped = tgpu['~unstable'].fn([], schema)(read);
+  const wrapped = tgpu.fn([], schema)(read as () => never);
 
   const resultBufferAtom = atom((get) => {
     const root = getRootSync(get);
     // TODO: Allow users to define how the result of this atom can be used.
-    // biome-ignore lint/suspicious/noExplicitAny: it's fine, just use storage for now
-    return root.createBuffer(schema).$usage('storage' as any);
+    return root.createBuffer(schema as d.AnyData).$usage('storage');
   });
 
   const pipelineAtom = atom((get) => {
@@ -29,17 +28,14 @@ export function gpuAtom<TSchema extends AnyData, TValue extends Infer<TSchema>>(
     const resultBuffer = get(resultBufferAtom);
     const resultStorage = resultBuffer.as('mutable');
 
-    const mainCompute = tgpu['~unstable'].computeFn({
-      workgroupSize: [1, 1, 1],
-    })(() => {
-      resultStorage.value = wrapped() as InferGPU<TSchema>;
+    const valueDeps: Array<Atom<unknown>> = [];
+    const pipeline = root.createGuardedComputePipeline(() => {
+      'use gpu';
+      resultStorage.$ = wrapped() as d.InferGPU<TSchema>;
     });
 
-    const valueDeps: Array<Atom<unknown>> = [];
-    const pipeline = root['~unstable'].withCompute(mainCompute).createPipeline();
-
     setGpuContext({ get, valueDeps });
-    root.unwrap(pipeline);
+    root.unwrap(pipeline.pipeline);
     setGpuContext(undefined);
 
     return [pipeline, valueDeps] as const;
@@ -55,8 +51,8 @@ export function gpuAtom<TSchema extends AnyData, TValue extends Infer<TSchema>>(
       get(dep);
     }
 
-    // TODO: Pass in the amount of workgroups that the user configures
-    pipeline.dispatchWorkgroups(1);
+    // TODO: Pass in the amount of threads/workgroups that the user configures
+    pipeline.dispatchThreads();
     return resultBuffer.read();
   }) as GPUAtom<TSchema, TValue>;
 
