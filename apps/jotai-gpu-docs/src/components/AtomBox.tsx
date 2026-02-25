@@ -26,24 +26,15 @@ const htmlAtoms = atomFamily((code: string) => {
   );
 });
 
-export function CountDisplay(props: {
-  countAtom: Atom<number> | Atom<Promise<number>>;
-}) {
+export function CountDisplay(props: { countAtom: Atom<number> | Atom<Promise<number>> }) {
   const counter = useAtomValue(props.countAtom);
 
-  return (
-    <span className="flex justify-center items-center w-8 h-8 bg-slate-200">
-      {counter}
-    </span>
-  );
+  return <span className="flex justify-center items-center w-8 h-8 bg-slate-200">{counter}</span>;
 }
 
 export function AtomBox(props: AtomBoxProps) {
   const codeHtml = useAtomValue(htmlAtoms(props.codeHtml));
-  const latestAtom = useMemo(
-    () => unwrap(props.valueAtom, (prev) => prev),
-    [props.valueAtom],
-  );
+  const latestAtom = useMemo(() => unwrap(props.valueAtom, (prev) => prev), [props.valueAtom]);
   const currentAtom = useMemo(() => unwrap(props.valueAtom), [props.valueAtom]);
   const latest = useAtomValue(latestAtom);
   const current = useAtomValue(currentAtom);

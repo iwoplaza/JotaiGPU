@@ -5,26 +5,21 @@ import type { AnyData, Infer, InferGPU } from 'typegpu/data';
 import { setGpuContext } from './gpu-context.ts';
 import { getRoot, getRootSync } from './root.ts';
 
-export function isPromiseLike<T>(
-  value: PromiseLike<T> | unknown,
-): value is PromiseLike<T> {
+export function isPromiseLike<T>(value: PromiseLike<T> | unknown): value is PromiseLike<T> {
   return typeof (value as PromiseLike<T>)?.then === 'function';
 }
 
-export type GPUAtomConstructor<TSchema extends AnyData> = <
-  TValue extends Infer<TSchema>,
->(
+export type GPUAtomConstructor<TSchema extends AnyData> = <TValue extends Infer<TSchema>>(
   read: () => TValue,
 ) => GPUAtom<TSchema, TValue>;
 
-export interface GPUAtom<TSchema extends AnyData, TValue extends Infer<TSchema>>
-  extends Atom<Promise<TValue>> {
+export interface GPUAtom<TSchema extends AnyData, TValue extends Infer<TSchema>> extends Atom<
+  Promise<TValue>
+> {
   schema: TSchema;
 }
 
-export function gpuAtom<TSchema extends AnyData>(
-  schema: TSchema,
-): GPUAtomConstructor<TSchema> {
+export function gpuAtom<TSchema extends AnyData>(schema: TSchema): GPUAtomConstructor<TSchema> {
   return <TValue extends Infer<TSchema>>(read: () => TValue) => {
     // TODO: Remove when `InferReturn` doesn't exist anymore
     // biome-ignore lint/suspicious/noExplicitAny: ^
@@ -49,9 +44,7 @@ export function gpuAtom<TSchema extends AnyData>(
       });
 
       const valueDeps: Array<Atom<unknown>> = [];
-      const pipeline = root['~unstable']
-        .withCompute(mainCompute)
-        .createPipeline();
+      const pipeline = root['~unstable'].withCompute(mainCompute).createPipeline();
 
       setGpuContext({ get, valueDeps });
       root.unwrap(pipeline);

@@ -31,14 +31,9 @@ const quadAtom = atom(async (get) => {
   return (await get(doubleAtom)) * 2;
 });`;
 
-function EnvLabel({
-  children,
-  className,
-}: { children?: string; className?: string }) {
+function EnvLabel({ children, className }: { children?: string; className?: string }) {
   return (
-    <h2
-      className={`hidden lg:block row-start-1 text-slate-600 mb-4 text-2xl ${className}`}
-    >
+    <h2 className={`hidden lg:block row-start-1 text-slate-600 mb-4 text-2xl ${className}`}>
       {children}
     </h2>
   );
@@ -97,8 +92,7 @@ export default function CounterGraphWrapper() {
     <ErrorBoundary
       fallback={
         <p className="mx-auto max-w-2xl text-center py-16 bg-gray-600/50">
-          WebGPU is not supported in this browser{' '}
-          <span className="whitespace-nowrap">:(</span>
+          WebGPU is not supported in this browser <span className="whitespace-nowrap">:(</span>
         </p>
       }
     >

@@ -1,11 +1,6 @@
 function Arrowhead() {
   return (
-    <svg
-      height="16"
-      viewBox="0 0 27 54"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg height="16" viewBox="0 0 27 54" fill="none" xmlns="http://www.w3.org/2000/svg">
       <title>Arrow head</title>
       <path
         d="M25.6402 25.6043C26.3969 26.3809 26.3969 27.6191 25.6402 28.3957L3.43252 51.1897C2.18032 52.4749 -2.47356e-06 51.5884 -2.39512e-06 49.794L-4.02407e-07 4.20599C-3.23971e-07 2.41159 2.18032 1.52507 3.43252 2.81033L25.6402 25.6043Z"

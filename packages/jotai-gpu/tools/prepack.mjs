@@ -78,9 +78,7 @@ async function transformPackageJSON() {
   });
 
   // Erroring out on any wildcard dependencies
-  for (const [moduleKey, versionSpec] of [
-    ...entries(distPackageJson.dependencies ?? {}),
-  ]) {
+  for (const [moduleKey, versionSpec] of entries(distPackageJson.dependencies ?? {})) {
     if (versionSpec === '*' || versionSpec === 'workspace:*') {
       throw new Error(
         `Cannot depend on a module with a wildcard version. (${moduleKey}: ${versionSpec})`,
@@ -98,11 +96,7 @@ async function transformPackageJSON() {
     (/** @type {string} */ value) => value.replace(/^workspace:/, ''),
   );
 
-  await fs.writeFile(
-    distPackageJsonUrl,
-    JSON.stringify(distPackageJson, undefined, 2),
-    'utf-8',
-  );
+  await fs.writeFile(distPackageJsonUrl, JSON.stringify(distPackageJson, undefined, 2), 'utf-8');
 }
 
 async function transformReadme() {
@@ -118,9 +112,7 @@ async function transformReadme() {
 }
 
 async function main() {
-  await promiseExec(
-    'pnpm build && pnpm -w test:spec && pnpm -w test:types && biome check .',
-  );
+  await promiseExec('pnpm build && pnpm -w test:spec && pnpm -w test:types && biome check .');
 
   await Promise.all([transformPackageJSON(), transformReadme()]);
 
