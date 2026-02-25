@@ -1,15 +1,15 @@
 import { atom } from 'jotai/vanilla';
 import type { Atom, SetStateAction, WritableAtom } from 'jotai/vanilla';
 import type { AnyWgslData, Infer, InferGPU } from 'typegpu/data';
-import { isPromiseLike } from './gpu-atom.ts';
+import { isPromiseLike } from './utils.ts';
 import { getGpuContext } from './gpu-context.ts';
 import { getRoot, getRootSync } from './root.ts';
 
 export interface WithUpload<TSchema extends AnyWgslData> {
   usage: ['uniform'];
   schema: TSchema;
-  value: InferGPU<TSchema>;
-  $: InferGPU<TSchema>;
+  readonly value: InferGPU<TSchema>;
+  readonly $: InferGPU<TSchema>;
 }
 
 function isWritable(atom: unknown): atom is WritableAtom<unknown, unknown[], unknown> {
