@@ -21,20 +21,20 @@ export async function draw(
     ? await rootOrPromise
     : rootOrPromise;
 
-  if (typeof target.getContext === 'function') {
-    // `target` is a canvas
-
-    let context = canvasToContextMap.get(target);
+  let context = canvasToContextMap.get(target);
+  if (!context) {
+    context = target.getContext('webgpu') ?? undefined;
     if (!context) {
-      context = target.getContext('webgpu') ?? undefined;
-      if (!context) {
-        throw new Error('WebGPU is not supported in this browser');
-      }
-      canvasToContextMap.set(target, context);
-
-      // context.configure({
-      //   device: root.device,
-      // });
+      throw new Error('WebGPU is not supported in this browser');
     }
+    canvasToContextMap.set(target, context);
+
+    const format = navigator.gpu.getPreferredCanvasFormat();
+    context.configure({
+      device: root.device,
+      format,
+    });
   }
+
+  const view = context.getCurrentTexture().createView();
 }
