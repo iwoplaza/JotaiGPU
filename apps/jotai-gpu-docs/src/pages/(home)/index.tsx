@@ -41,6 +41,7 @@ export default async function Home() {
 
   return (
     <div className="bg-[#131419] text-white flex-1 flex flex-col">
+      <title>JotaiGPU</title>
       <header className="flex justify-center items-center my-12">
         <img
           src="/jotaigpu-logo-dark.svg"
