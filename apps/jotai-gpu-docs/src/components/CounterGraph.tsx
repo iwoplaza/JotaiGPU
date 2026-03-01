@@ -1,10 +1,12 @@
+'use client';
+
 import { atom, useSetAtom } from 'jotai';
 import { gpuAtom, withUpload } from 'jotai-gpu';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { d } from 'typegpu';
-import { Arrow } from './Arrow.tsx';
-import { AtomBox } from './AtomBox.tsx';
+import { Arrow } from '@/components/Arrow';
+import { AtomBox } from '@/components/AtomBox';
 
 const countAtom = withUpload(d.f32, atom(1));
 
@@ -88,14 +90,24 @@ function CounterGraph() {
 }
 
 export default function CounterGraphWrapper() {
+  const fallback = (
+    <p className="mx-auto max-w-2xl text-center py-16 bg-gray-600/50">
+      WebGPU is not supported in this browser <span className="whitespace-nowrap">:(</span>
+    </p>
+  );
+
+  const [isHydrated, setIsHydrated] = useState(false);
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
+  if (!isHydrated) {
+    return fallback;
+  }
+
   return (
-    <ErrorBoundary
-      fallback={
-        <p className="mx-auto max-w-2xl text-center py-16 bg-gray-600/50">
-          WebGPU is not supported in this browser <span className="whitespace-nowrap">:(</span>
-        </p>
-      }
-    >
+    <ErrorBoundary fallback={fallback}>
       <CounterGraph />
     </ErrorBoundary>
   );

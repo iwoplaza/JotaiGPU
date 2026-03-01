@@ -1,39 +1,26 @@
-import catppucciMmocha from '@shikijs/themes/catppuccin-mocha';
+'use client';
+
 import { type Atom, atom, useAtomValue } from 'jotai';
 import { unwrap } from 'jotai/utils';
 import { atomFamily } from 'jotai-family';
-import { useMemo } from 'react';
-import { createHighlighterCore } from 'shiki/core';
-import { createOnigurumaEngine } from 'shiki/engine/oniguruma';
+import { useMemo, Suspense } from 'react';
+import { codeToHtml } from 'shiki';
 
 interface AtomBoxProps {
   valueAtom: Atom<number | Promise<number>>;
   codeHtml: string;
 }
 
-const highlighter = await createHighlighterCore({
-  themes: [catppucciMmocha],
-  langs: [import('@shikijs/langs/typescript')],
-  // `shiki/wasm` contains the wasm binary inlined as base64 string.
-  engine: createOnigurumaEngine(import('shiki/wasm')),
-});
-
 const htmlAtoms = atomFamily((code: string) => {
   return atom(() =>
-    highlighter.codeToHtml(code, {
+    codeToHtml(code, {
       lang: 'typescript',
-      theme: catppucciMmocha,
+      theme: 'catppuccin-mocha',
     }),
   );
 });
 
-export function CountDisplay(props: { countAtom: Atom<number> | Atom<Promise<number>> }) {
-  const counter = useAtomValue(props.countAtom);
-
-  return <span className="flex justify-center items-center w-8 h-8 bg-slate-200">{counter}</span>;
-}
-
-export function AtomBox(props: AtomBoxProps) {
+function AtomBoxContent(props: AtomBoxProps) {
   const codeHtml = useAtomValue(htmlAtoms(props.codeHtml));
   const latestAtom = useMemo(() => unwrap(props.valueAtom, (prev) => prev), [props.valueAtom]);
   const currentAtom = useMemo(() => unwrap(props.valueAtom), [props.valueAtom]);
@@ -57,5 +44,21 @@ export function AtomBox(props: AtomBoxProps) {
         </footer>
       </div>
     </article>
+  );
+}
+
+export function AtomBox(props: AtomBoxProps) {
+  return (
+    <Suspense
+      fallback={
+        <article className="w-min opacity-50">
+          <div className="bg-[#1e1e2e] rounded-md shadow-2xl">
+            <div className="px-4 py-6 text-xs text-white/30">Loading...</div>
+          </div>
+        </article>
+      }
+    >
+      <AtomBoxContent {...props} />
+    </Suspense>
   );
 }

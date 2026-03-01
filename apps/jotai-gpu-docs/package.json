@@ -1,38 +1,41 @@
 {
   "name": "jotai-gpu-docs",
-  "version": "0.0.1",
+  "private": true,
   "type": "module",
+  "sideEffects": false,
   "scripts": {
-    "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "astro": "astro"
+    "dev": "waku dev",
+    "build": "waku build",
+    "start": "waku start",
+    "types:check": "fumadocs-mdx && tsc --noEmit",
+    "postinstall": "fumadocs-mdx"
   },
   "dependencies": {
-    "@astrojs/react": "^4.3.0",
-    "@astrojs/starlight": "^0.34.3",
-    "@astrojs/starlight-tailwind": "^4.0.1",
-    "@shikijs/langs": "^3.7.0",
-    "@shikijs/themes": "^3.7.0",
-    "@tailwindcss/vite": "^4.1.8",
-    "@types/node": "^22.15.29",
-    "@types/react-dom": "^19.1.6",
-    "astro": "^5.6.1",
-    "expressive-code-twoslash": "^0.5.3",
+    "fumadocs-core": "16.5.4",
+    "fumadocs-mdx": "14.2.7",
+    "fumadocs-ui": "16.5.4",
     "jotai": "catalog:",
     "jotai-family": "^1.0.1",
-    "jotai-gpu": "workspace:",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
+    "jotai-gpu": "workspace:^",
+    "lucide-react": "^0.563.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
     "react-error-boundary": "^6.0.0",
-    "sharp": "^0.32.6",
-    "shiki": "^3.5.0",
-    "tailwindcss": "^4.1.8",
-    "typegpu": "catalog:"
+    "react-server-dom-webpack": "^19.2.4",
+    "shiki": "^3.23.0",
+    "typegpu": "catalog:",
+    "waku": "1.0.0-alpha.3"
   },
   "devDependencies": {
-    "@types/react": "^19.1.6",
-    "unplugin-typegpu": "catalog:"
+    "@tailwindcss/vite": "^4.1.18",
+    "@types/mdx": "^2.0.13",
+    "@types/node": "^25.2.1",
+    "@types/react": "^19.2.13",
+    "@types/react-dom": "^19.2.3",
+    "tailwindcss": "^4.1.18",
+    "typescript": "^5.9.3",
+    "unplugin-typegpu": "catalog:",
+    "vite": "^7.3.1",
+    "vite-tsconfig-paths": "^6.0.5"
   }
 }
