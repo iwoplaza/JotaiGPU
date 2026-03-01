@@ -1,4 +1,4 @@
-import Image from 'next/image';
+// import { Link } from 'waku';
 import { codeToHtml } from 'shiki';
 import { CautionIcon } from '@/components/CautionIcon';
 import CounterGraph from '@/components/CounterGraph';
@@ -33,7 +33,7 @@ store.sub(quadAtom, async () => {
   console.log(await store.get(quadAtom));
 });`;
 
-export default async function HomePage() {
+export default async function Home() {
   const codeHtml = await codeToHtml(codeExample, {
     lang: 'typescript',
     theme: 'catppuccin-mocha',
@@ -42,13 +42,12 @@ export default async function HomePage() {
   return (
     <div className="bg-[#131419] text-white flex-1 flex flex-col">
       <header className="flex justify-center items-center my-12">
-        <Image
+        <img
           src="/jotaigpu-logo-dark.svg"
           alt="JotaiGPU Logo"
           width={471}
           height={146}
           className="h-16 w-auto"
-          priority
         />
       </header>
 
@@ -104,3 +103,9 @@ export default async function HomePage() {
     </div>
   );
 }
+
+export const getConfig = async () => {
+  return {
+    render: 'static',
+  };
+};
