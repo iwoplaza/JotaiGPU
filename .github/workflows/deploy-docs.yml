@@ -47,7 +47,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./apps/jotai-gpu-docs/dist
+          path: ./apps/jotai-gpu-docs/dist/public
 
   deploy:
     needs: build
